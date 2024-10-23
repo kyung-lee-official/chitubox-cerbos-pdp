@@ -2,9 +2,7 @@
 apiVersion: api.cerbos.dev/v1
 resourcePolicy:
     version: "default"
-    # importDerivedRoles:
-    #     - common_roles
-    resource: "performance"
+    resource: "internal:performance"
     rules:
         - actions: ["*"]
           effect: EFFECT_ALLOW

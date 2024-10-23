@@ -1,0 +1,16 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+    version: "default"
+    resource: "internal:members"
+    rules:
+        - actions: ["read", "update"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.id == R.id
+          output:
+              when:
+                  conditionNotMet: |-
+                      {"principal": P, "resource": R, "message": "System can be accessed at this time"}
