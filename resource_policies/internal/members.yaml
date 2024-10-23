@@ -9,8 +9,10 @@ resourcePolicy:
           roles: ["*"]
           condition:
               match:
-                  expr: P.id == R.id
+                  expr: P.attr.id == R.attr.id
           output:
               when:
+                  ruleActivated: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
                   conditionNotMet: |-
-                      {"principal": P, "resource": R, "message": "System can be accessed at this time"}
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
