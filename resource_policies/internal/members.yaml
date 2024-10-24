@@ -4,6 +4,10 @@ resourcePolicy:
     version: "default"
     resource: "internal:members"
     rules:
+        - actions: ["*"]
+          effect: EFFECT_ALLOW
+          roles: ["admin"]
+          
         - actions: ["read", "update"]
           effect: EFFECT_ALLOW
           roles: ["*"]
