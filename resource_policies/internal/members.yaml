@@ -8,15 +8,15 @@ resourcePolicy:
           effect: EFFECT_ALLOW
           roles: ["admin"]
           
-        - actions: ["read", "update"]
+        - actions: ["read"]
           effect: EFFECT_ALLOW
           roles: ["*"]
-          condition:
-              match:
-                  expr: P.attr.id == R.attr.id
-          output:
-              when:
-                  ruleActivated: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
-                  conditionNotMet: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+        #   condition:
+        #       match:
+        #           expr: P.attr.id == R.attr.id
+        #   output:
+        #       when:
+        #           ruleActivated: |-
+        #               {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
+        #           conditionNotMet: |-
+        #               {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
