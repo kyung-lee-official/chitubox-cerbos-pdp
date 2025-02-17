@@ -1,0 +1,16 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+    version: "default"
+    resource: "internal:applications:performances:template"
+    rules:
+        - actions: ["*"]
+          effect: EFFECT_ALLOW
+          roles: ["admin"]
+          
+        - actions: ["read"]
+          roles: ["*"]
+          effect: EFFECT_ALLOW
+          condition:
+              match:
+                  expr: R.attr.ownerRole in P.roles
