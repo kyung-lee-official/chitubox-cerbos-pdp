@@ -20,3 +20,10 @@ resourcePolicy:
         #               {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
         #           conditionNotMet: |-
         #               {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+
+        - actions: ["freeze"]
+          effect: EFFECT_DENY
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.attr.id == R.attr.id
