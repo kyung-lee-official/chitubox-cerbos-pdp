@@ -7,7 +7,7 @@ resourcePolicy:
         - actions: ["*"]
           effect: EFFECT_ALLOW
           roles: ["admin"]
-          
+
         - actions: ["read"]
           effect: EFFECT_ALLOW
           roles: ["*"]
@@ -17,9 +17,22 @@ resourcePolicy:
         #   output:
         #       when:
         #           ruleActivated: |-
-        #               {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
+        #               {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
         #           conditionNotMet: |-
         #               {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+
+        - actions: ["update-profile"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.attr.id == R.attr.id
+          output:
+              when:
+                  ruleActivated: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
 
         - actions: ["freeze"]
           effect: EFFECT_DENY
