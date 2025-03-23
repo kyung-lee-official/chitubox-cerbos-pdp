@@ -13,7 +13,10 @@ resourcePolicy:
           effect: EFFECT_ALLOW
           condition:
               match:
-                  expr: P.attr.id == R.attr.performanceStatOwnerId
+                  any:
+                    of:
+                      - expr: P.attr.id == R.attr.performanceStatOwnerId
+                      - expr: P.roles.exists(x, x in R.attr.superRoleIds)
           output:
               when:
                   ruleActivated: |-
