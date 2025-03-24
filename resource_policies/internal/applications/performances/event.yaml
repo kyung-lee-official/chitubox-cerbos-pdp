@@ -8,7 +8,7 @@ resourcePolicy:
           effect: EFFECT_ALLOW
           roles: ["admin"]
           
-        - actions: ["create", "update", "read", "detete"]
+        - actions: ["create", "update", "read", "delete"]
           roles: ["*"]
           effect: EFFECT_ALLOW
           condition:
