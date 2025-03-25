@@ -8,6 +8,13 @@ resourcePolicy:
           effect: EFFECT_ALLOW
           roles: ["admin"]
 
+        - actions: ["*"]
+          effect: EFFECT_DENY
+          roles: ["*"]
+          condition:
+              match:
+                  expr: "'admin' in R.attr.memberRoles"
+
         - actions: ["read"]
           effect: EFFECT_ALLOW
           roles: ["*"]
