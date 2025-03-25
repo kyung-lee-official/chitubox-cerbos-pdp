@@ -8,25 +8,32 @@ resourcePolicy:
           effect: EFFECT_ALLOW
           roles: ["admin"]
 
-        - actions: ["*"]
+        - name: cannot-delete-admin-members
+          actions: ["delete"]
           effect: EFFECT_DENY
           roles: ["*"]
           condition:
               match:
-                  expr: "'admin' in R.attr.memberRoles"
+                  expr: ("admin" in R.attr.memberRoles)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"principal": P.attr.email, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"principal": P.attr.email, "message": "conditionNotMet message"}
 
         - actions: ["read"]
           effect: EFFECT_ALLOW
           roles: ["*"]
-        #   condition:
-        #       match:
-        #           expr: P.attr.id == R.attr.id
-        #   output:
-        #       when:
-        #           ruleActivated: |-
-        #               {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
-        #           conditionNotMet: |-
-        #               {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+          condition:
+              match:
+                  expr: P.attr.id == R.attr.id
+          output:
+              when:
+                  ruleActivated: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
 
         - actions: ["update-profile"]
           effect: EFFECT_ALLOW
