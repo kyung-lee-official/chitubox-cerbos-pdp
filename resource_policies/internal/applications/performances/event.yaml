@@ -9,8 +9,8 @@ resourcePolicy:
           roles: ["admin"]
           
         - actions: ["create", "update", "read", "delete"]
-          roles: ["*"]
           effect: EFFECT_ALLOW
+          roles: ["*"]
           condition:
               match:
                   any:

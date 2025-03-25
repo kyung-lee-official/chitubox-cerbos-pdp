@@ -7,7 +7,7 @@ resourcePolicy:
         - actions: ["*"]
           effect: EFFECT_ALLOW
           roles: ["admin"]
-          
+
         - actions: ["read"]
           roles: ["*"]
           effect: EFFECT_ALLOW
