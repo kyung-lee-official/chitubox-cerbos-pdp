@@ -4,22 +4,34 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:event"
     rules:
-        - actions: ["*"]
-          effect: EFFECT_ALLOW
-          roles: ["admin"]
-          
-        - actions: ["create", "update", "read", "delete"]
+        - actions: ["create"]
           effect: EFFECT_ALLOW
           roles: ["*"]
           condition:
               match:
                   any:
-                    of:
-                      - expr: P.attr.id == R.attr.performanceStatOwnerId
-                      - expr: P.roles.exists(x, x in R.attr.superRoleIds)
+                      of:
+                          - expr: P.attr.id == R.attr.performanceStatOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.superRoleIds)
           output:
               when:
                   ruleActivated: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
+                      {"resource": R.attr.templateMemberRoleId, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"resource": R.attr.templateMemberRoleId, "message": "conditionNotMet message"}
+
+        - actions: ["update", "read", "delete"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  any:
+                      of:
+                          - expr: P.attr.id == R.attr.performanceStatOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.superRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
                   conditionNotMet: |-
                       {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
