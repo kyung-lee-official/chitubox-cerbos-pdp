@@ -4,7 +4,8 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:event"
     rules:
-        - actions: ["create"]
+        - name: performance event CRUD
+          actions: ["create", "read", "update", "delete"]
           effect: EFFECT_ALLOW
           roles: ["*"]
           condition:
@@ -12,26 +13,10 @@ resourcePolicy:
                   any:
                       of:
                           - expr: P.attr.id == R.attr.performanceStatOwnerId
-                          - expr: P.roles.exists(x, x in R.attr.superRoleIds)
+                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoles)
           output:
               when:
                   ruleActivated: |-
-                      {"resource": R.attr.templateMemberRoleId, "message": "ruleActivated message"}
+                      {"message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"resource": R.attr.templateMemberRoleId, "message": "conditionNotMet message"}
-
-        - actions: ["update", "read", "delete"]
-          effect: EFFECT_ALLOW
-          roles: ["*"]
-          condition:
-              match:
-                  any:
-                      of:
-                          - expr: P.attr.id == R.attr.performanceStatOwnerId
-                          - expr: P.roles.exists(x, x in R.attr.superRoleIds)
-          output:
-              when:
-                  ruleActivated: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
-                  conditionNotMet: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.performanceStatOwnerId": R.attr.performanceStatOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoles": R.attr.sectionSuperRoles}
