@@ -3,7 +3,7 @@ apiVersion: api.cerbos.dev/v1
 resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:event:approval"
-    rules:          
+    rules:
         - actions: ["update"]
           effect: EFFECT_ALLOW
           roles: ["*"]
@@ -13,6 +13,6 @@ resourcePolicy:
           output:
               when:
                   ruleActivated: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
+                      {"P.roles": P.roles, "R.attr.superRoleIds": R.attr.superRoleIds, "message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+                      {"P.roles": P.roles, "R.attr.superRoleIds": R.attr.superRoleIds, "message": "conditionNotMet message"}
