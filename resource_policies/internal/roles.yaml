@@ -4,7 +4,19 @@ resourcePolicy:
     version: "default"
     resource: "internal:roles"
     rules:
-        - actions: ["*"]
+        - name: admin-can-manage-roles
+          actions: ["*"]
           effect: EFFECT_ALLOW
           roles:
               - "admin"
+
+        - name: anyone-can-read-roles
+          actions: ["read"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          output:
+              when:
+                  ruleActivated: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
