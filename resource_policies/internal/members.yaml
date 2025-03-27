@@ -22,7 +22,13 @@ resourcePolicy:
                   conditionNotMet: |-
                       {"principal": P.attr.email, "message": "conditionNotMet message"}
 
-        - actions: ["read"]
+        - name: read-members
+          actions: ["read"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+
+        - name: read-my-private-info
+          actions: ["read-my-private-info"]
           effect: EFFECT_ALLOW
           roles: ["*"]
           condition:
