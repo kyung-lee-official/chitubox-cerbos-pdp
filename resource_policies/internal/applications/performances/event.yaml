@@ -4,7 +4,7 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:event"
     rules:
-        - name: performance event CRUD
+        - name: performance-event-crud
           actions: ["create", "read", "update", "delete"]
           effect: EFFECT_ALLOW
           roles: ["*"]
