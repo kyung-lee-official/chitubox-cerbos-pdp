@@ -13,10 +13,10 @@ resourcePolicy:
                   any:
                       of:
                           - expr: P.attr.id == R.attr.performanceStatOwnerId
-                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoles)
+                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
                       {"message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.performanceStatOwnerId": R.attr.performanceStatOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoles": R.attr.sectionSuperRoles}
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.performanceStatOwnerId": R.attr.performanceStatOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
