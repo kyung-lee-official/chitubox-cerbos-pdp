@@ -1,0 +1,24 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+    version: "default"
+    resource: "internal:authentication"
+    rules:
+        - name: admin-can-change-anyones-password
+          actions: ["update-password"]
+          effect: EFFECT_ALLOW
+          roles: ["admin"]
+
+        - name: can-only-change-own-password
+          actions: ["update-password"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.attr.id == R.attr.id
+          output:
+              when:
+                  ruleActivated: |-
+                      {"P.attr.id": P.attr.id, "R.attr.id": R.attr.id, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"P.attr.id": P.attr.id, "R.attr.id": R.attr.id, "message": "conditionNotMet message"}
