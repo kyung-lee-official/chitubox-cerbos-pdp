@@ -16,6 +16,6 @@ resourcePolicy:
           output:
               when:
                   ruleActivated: |-
-                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.ownerSuperRoleIds": R.attr.ownerSuperRoleIds, message": "ruleActivated message"}
+                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.ownerSuperRoleIds": R.attr.ownerSuperRoleIds, "message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.ownerSuperRoleIds": R.attr.ownerSuperRoleIds, message": "conditionNotMet message"}
+                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.ownerSuperRoleIds": R.attr.ownerSuperRoleIds, "message": "conditionNotMet message"}
