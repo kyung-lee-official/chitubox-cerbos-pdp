@@ -4,19 +4,18 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:stat"
     rules:
-        - actions: ["*"]
-          effect: EFFECT_ALLOW
-          roles: ["admin"]
-          
         - actions: ["create", "read", "update", "delete"]
           roles: ["*"]
           effect: EFFECT_ALLOW
           condition:
               match:
-                  expr: P.id == R.attr.ownerId
+                  any:
+                      of:
+                          - expr: P.id == R.attr.ownerId
+                          - expr: P.roles.exists(x, x in R.attr.ownerSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "ruleActivated message"}				
+                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.ownerSuperRoleIds": R.attr.ownerSuperRoleIds, message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"principal": P.attr.id, "resource": R.attr.id, "message": "conditionNotMet message"}
+                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.ownerSuperRoleIds": R.attr.ownerSuperRoleIds, message": "conditionNotMet message"}
