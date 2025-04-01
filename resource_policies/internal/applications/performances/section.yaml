@@ -32,6 +32,20 @@ resourcePolicy:
           output:
               when:
                   ruleActivated: |-
-                      {"message": "ruleActivated message"}
+                      {"message": "ruleActivated message", "P.id": P.id, "P.roles": P.roles, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
                   conditionNotMet: |-
                       {"message": "conditionNotMet message", "P.id": P.id, "P.roles": P.roles, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
+
+        - name: performance-section-delete
+          actions: ["delete"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message", "P.id": P.id, "P.roles": P.roles, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "P.id": P.id, "P.roles": P.roles, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
