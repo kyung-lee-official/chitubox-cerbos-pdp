@@ -1,0 +1,19 @@
+---
+apiVersion: api.cerbos.dev/v1
+resourcePolicy:
+    version: "default"
+    resource: "internal:applications:performances:section"
+    rules:
+        - name: performance-section-create
+          actions: ["create"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
