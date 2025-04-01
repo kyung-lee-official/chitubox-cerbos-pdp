@@ -17,3 +17,21 @@ resourcePolicy:
                       {"message": "ruleActivated message"}
                   conditionNotMet: |-
                       {"message": "conditionNotMet message", "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
+
+        - name: performance-section-read
+          actions: ["read"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  any:
+                      of:
+                          - expr: P.id == R.attr.statOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
+                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "P.id": P.id, "P.roles": P.roles, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
