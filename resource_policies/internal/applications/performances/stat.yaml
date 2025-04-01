@@ -4,7 +4,8 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:stat"
     rules:
-        - actions: ["create", "read", "update", "delete"]
+        - name: performance-stat-crud
+          actions: ["create", "read", "update", "delete"]
           roles: ["*"]
           effect: EFFECT_ALLOW
           condition:
