@@ -9,10 +9,10 @@ resourcePolicy:
           roles: ["*"]
           condition:
               match:
-                  expr: P.roles.exists(x, x in R.attr.superRoleIds)
+                  expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
-                      {"P.roles": P.roles, "R.attr.superRoleIds": R.attr.superRoleIds, "message": "ruleActivated message"}
+                      {"P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds, "message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"P.roles": P.roles, "R.attr.superRoleIds": R.attr.superRoleIds, "message": "conditionNotMet message"}
+                      {"P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds, "message": "conditionNotMet message"}
