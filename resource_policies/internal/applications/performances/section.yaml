@@ -42,7 +42,7 @@ resourcePolicy:
           roles: ["*"]
           condition:
               match:
-                  - expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
+                  expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
