@@ -36,6 +36,20 @@ resourcePolicy:
                   conditionNotMet: |-
                       {"message": "conditionNotMet message", "P.id": P.id, "P.roles": P.roles, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
 
+        - name: performance-section-update
+          actions: ["update"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  - expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message", "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
+
         - name: performance-section-delete
           actions: ["delete"]
           effect: EFFECT_ALLOW
