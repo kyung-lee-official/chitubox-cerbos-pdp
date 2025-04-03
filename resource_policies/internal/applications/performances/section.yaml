@@ -17,6 +17,14 @@ resourcePolicy:
                       {"message": "ruleActivated message"}
                   conditionNotMet: |-
                       {"message": "conditionNotMet message", "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds}
+        
+        - name: performance-section-create-event
+          actions: ["create-event"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
 
         - name: performance-section-read
           actions: ["read"]
