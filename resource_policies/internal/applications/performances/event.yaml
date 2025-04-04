@@ -13,14 +13,14 @@ resourcePolicy:
                   any:
                       of:
                           - expr: P.attr.roles == R.attr.statOwnerSuperRoleIds
-                          - expr: P.attr.id == R.attr.performanceStatOwnerId
+                          - expr: P.attr.id == R.attr.statOwnerId
                           - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
                       {"message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.performanceStatOwnerId": R.attr.performanceStatOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.statOwnerId": R.attr.statOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
 
         - name: performance-event-cud
           actions: ["create", "update", "delete"]
@@ -30,11 +30,11 @@ resourcePolicy:
               match:
                   any:
                       of:
-                          - expr: P.attr.id == R.attr.performanceStatOwnerId
+                          - expr: P.attr.id == R.attr.statOwnerId
                           - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
                       {"message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.performanceStatOwnerId": R.attr.performanceStatOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerId": R.attr.statOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
