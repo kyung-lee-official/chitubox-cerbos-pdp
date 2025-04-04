@@ -12,8 +12,8 @@ resourcePolicy:
               match:
                   any:
                       of:
-                          - expr: P.attr.roles == R.attr.statOwnerSuperRoleIds
                           - expr: P.attr.id == R.attr.statOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
                           - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
