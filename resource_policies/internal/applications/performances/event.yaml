@@ -4,8 +4,26 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:event"
     rules:
-        - name: performance-event-crud
-          actions: ["create", "read", "update", "delete"]
+        - name: performance-event-read
+          actions: ["read"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  any:
+                      of:
+                          - expr: P.attr.roles == R.attr.statOwnerSuperRoleIds
+                          - expr: P.attr.id == R.attr.performanceStatOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.performanceStatOwnerId": R.attr.performanceStatOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
+
+        - name: performance-event-cud
+          actions: ["create", "update", "delete"]
           effect: EFFECT_ALLOW
           roles: ["*"]
           condition:
