@@ -45,10 +45,10 @@ resourcePolicy:
           roles: ["*"]
           condition:
               match:
-                  - any:
-                        of:
-                            - expr: P.attr.id == R.attr.statOwnerId
-                            - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
+                  any:
+                      of:
+                          - expr: P.attr.id == R.attr.statOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
@@ -62,7 +62,13 @@ resourcePolicy:
           roles: ["*"]
           condition:
               match:
-                  - all:
-                        of:
-                            - expr: P.attr.id == R.attr.statOwnerId
-                            - expr: R.attr.score < 0
+                  all:
+                      of:
+                          - expr: P.attr.id == R.attr.statOwnerId
+                          - expr: R.attr.score < 0
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerId": R.attr.statOwnerId}
