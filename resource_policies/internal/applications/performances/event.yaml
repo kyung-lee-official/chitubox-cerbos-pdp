@@ -4,6 +4,23 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:event"
     rules:
+        - name: performance-event-create
+          actions: ["create"]
+          effect: EFFECT_ALLOW
+          roles: ["*"]
+          condition:
+              match:
+                  any:
+                      of:
+                          - expr: P.attr.id == R.attr.statOwnerId
+                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerId": R.attr.statOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
+
         - name: performance-event-read
           actions: ["read"]
           effect: EFFECT_ALLOW
@@ -22,19 +39,30 @@ resourcePolicy:
                   conditionNotMet: |-
                       {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "R.attr.statOwnerId": R.attr.statOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
 
-        - name: performance-event-cud
-          actions: ["create", "update", "delete"]
+        - name: performance-event-update-and-delete-allow
+          actions: ["update", "delete"]
           effect: EFFECT_ALLOW
           roles: ["*"]
           condition:
               match:
-                  any:
-                      of:
-                          - expr: P.attr.id == R.attr.statOwnerId
-                          - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
+                  - any:
+                        of:
+                            - expr: P.attr.id == R.attr.statOwnerId
+                            - expr: P.roles.exists(x, x in R.attr.sectionSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
                       {"message": "ruleActivated message"}
                   conditionNotMet: |-
                       {"message": "conditionNotMet message", "P.attr.id": P.attr.id, "R.attr.statOwnerId": R.attr.statOwnerId, "P.roles": P.roles, "R.attr.sectionSuperRoleIds": R.attr.sectionSuperRoleIds}
+
+        - name: performance-event-update-and-delete-deny
+          actions: ["update", "delete"]
+          effect: EFFECT_DENY
+          roles: ["*"]
+          condition:
+              match:
+                  - all:
+                        of:
+                            - expr: P.attr.id == R.attr.statOwnerId
+                            - expr: R.attr.score < 0
