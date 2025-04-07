@@ -4,7 +4,7 @@ resourcePolicy:
     version: "default"
     resource: "internal:applications:performances:stat"
     rules:
-        - name: performance-stat-create-read-delete
+        - name: performance-stat
           actions: ["create", "read", "delete"]
           roles: ["*"]
           effect: EFFECT_ALLOW
@@ -12,11 +12,25 @@ resourcePolicy:
               match:
                   any:
                       of:
-                          - expr: P.id == R.attr.ownerId
+                          - expr: P.id == R.attr.statOwnerId
                           - expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
           output:
               when:
                   ruleActivated: |-
-                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "message": "ruleActivated message"}
+                      {"P.id": P.id, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "message": "ruleActivated message"}
                   conditionNotMet: |-
-                      {"P.id": P.id, "R.attr.ownerId": R.attr.ownerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "message": "conditionNotMet message"}
+                      {"P.id": P.id, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "message": "conditionNotMet message"}
+
+        - name: performance-stat-create-section
+          actions: ["create-section"]
+          roles: ["*"]
+          effect: EFFECT_ALLOW
+          condition:
+              match:
+                  expr: P.roles.exists(x, x in R.attr.statOwnerSuperRoleIds)
+          output:
+              when:
+                  ruleActivated: |-
+                      {"P.id": P.id, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "message": "ruleActivated message"}
+                  conditionNotMet: |-
+                      {"P.id": P.id, "R.attr.statOwnerId": R.attr.statOwnerId, "R.attr.statOwnerSuperRoleIds": R.attr.statOwnerSuperRoleIds, "message": "conditionNotMet message"}
